@@ -27,7 +27,7 @@
 #include <linux/interrupt.h>
 
 #define DRV_NAME	"jme"
-#define DRV_VERSION	"1.0.8.9-jmmod-noasd"
+#define DRV_VERSION	"1.0.8.9-jmmod-noasd-wol"
 #define PFX		DRV_NAME ": "
 
 #define PCI_DEVICE_ID_JMICRON_JMC250	0x0250
@@ -61,6 +61,12 @@ do {									\
 	if (0)								\
 		printk(KERN_DEBUG "%s: " fmt, (priv)->dev->name, ##args); \
 } while (0)
+#endif
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0)
+#define __vlan_hwaccel_put_tag(x,y) __vlan_hwaccel_put_tag(x, htons(ETH_P_8021Q), y)
+#define NETIF_F_HW_VLAN_TX NETIF_F_HW_VLAN_CTAG_TX_BIT
+#define NETIF_F_HW_VLAN_RX NETIF_F_HW_VLAN_CTAG_RX_BIT
 #endif
 
 #if LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,33)

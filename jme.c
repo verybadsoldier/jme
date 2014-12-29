@@ -3176,7 +3176,7 @@ static const struct net_device_ops jme_netdev_ops = {
 };
 #endif
 
-static int __devinit
+static int
 jme_init_one(struct pci_dev *pdev,
 	     const struct pci_device_id *ent)
 {
@@ -3335,7 +3335,6 @@ jme_init_one(struct pci_dev *pdev,
 	jme->reg_rxmcs = RXMCS_DEFAULT;
 	jme->reg_txpfc = 0;
 	jme->reg_pmcs = PMCS_MFEN;
-	jme->reg_gpreg1 = GPREG1_DEFAULT;
 #ifndef __USE_NDO_FIX_FEATURES__
 	set_bit(JME_FLAG_TXCSUM, &jme->flags);
 	set_bit(JME_FLAG_TSO, &jme->flags);
@@ -3469,7 +3468,7 @@ err_out:
 	return rc;
 }
 
-static void __devexit
+static void
 jme_remove_one(struct pci_dev *pdev)
 {
 	struct net_device *netdev = pci_get_drvdata(pdev);
@@ -3624,7 +3623,7 @@ static struct pci_driver jme_driver = {
 	.name           = DRV_NAME,
 	.id_table       = jme_pci_tbl,
 	.probe          = jme_init_one,
-	.remove         = __devexit_p(jme_remove_one),
+	.remove         = jme_remove_one,
 	.shutdown       = jme_shutdown,
 #ifndef JME_NEW_PM_API
 	.suspend        = jme_suspend,
